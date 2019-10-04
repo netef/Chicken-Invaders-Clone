@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ExplosionScript : MonoBehaviour
 {
-    void Start()
+    void Awake()
     {
-        
+        Destroy(gameObject, 1);
     }
 }

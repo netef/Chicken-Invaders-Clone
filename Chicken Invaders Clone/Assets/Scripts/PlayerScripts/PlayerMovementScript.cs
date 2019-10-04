@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMovementScript : MonoBehaviour
 {
+    public GameObject explosion;
     private string playerName;
     private float xMovement;
     private float yMovement;
@@ -25,31 +26,27 @@ public class PlayerMovementScript : MonoBehaviour
         if (playerName.Equals("Player1"))
         {
             xMovement = Input.GetAxisRaw("Controller1Horizontal");
-            yMovement = Input.GetAxisRaw("Controller1Vertical");          
+            yMovement = Input.GetAxisRaw("Controller1Vertical");
         }
         else
         {
             xMovement = Input.GetAxisRaw("Controller2Horizontal");
             yMovement = Input.GetAxisRaw("Controller2Vertical");
         }
-
         movement = new Vector2(xMovement, yMovement);
-
-        /*if (mousePosition != Camera.main.ScreenToWorldPoint(Input.mousePosition))
-        {
-            mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mouse = true;
-        }*/
     }
 
     private void FixedUpdate()
     {
-        /*if (mouse)
-        {
-            mouse = false;
-            rb.MovePosition(mousePosition);
-        }
-        else*/
         rb.MovePosition(rb.position + movement * speed * Time.fixedDeltaTime);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Projectile"))
+        {
+            Instantiate(explosion, transform.position, Quaternion.identity);
+            Destroy(gameObject);
+        }
     }
 }

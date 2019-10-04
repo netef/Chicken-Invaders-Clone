@@ -12,11 +12,12 @@ public class ShotScript : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         rb.velocity = Vector2.up * speed;
+        Destroy(gameObject, 5);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "chicken")
+        if (collision.gameObject.tag == "Enemy")
         {
             GameObject die = Instantiate(explosionEffect, collision.transform.position, Quaternion.identity);
             Destroy(die, 1);
